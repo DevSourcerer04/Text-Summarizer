@@ -1,1 +1,11 @@
-key: value
+TrainingArguments:
+  num_train_epochs: 1
+  warmup_steps: 500
+  per_device_train_batch_size: 4   # or 8, experiment with VRAM usage
+  weight_decay: 0.01
+  logging_steps: 50                # reduce logging overhead
+  evaluation_strategy: steps
+  eval_steps: 200
+  save_steps: 500
+  gradient_accumulation_steps: 4   # adjust based on effective batch size
+  fp16: true                       # use mixed precision training
