@@ -1,75 +1,31 @@
-from textSummarizer.pipeline.stage_01_data_ingestion import DataIngestionTrainingPipeline
-from textSummarizer.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
-from textSummarizer.pipeline.stage_03_data_transformation import DataTransformationTrainingPipeline
-from textSummarizer.pipeline.stage_04_model_trainer import ModelTrainerTrainingPipeline
-'''
-from textSummarizer.pipeline.stage_05_model_evaluation import ModelEvaluationTrainingPipeline'''
-from textSummarizer.logging import logger
+from __future__ import annotations
+
+import argparse
+
+from textSummarizer.summarizer import summarize_text
 
 
-STAGE_NAME = "Data Ingestion stage"
-try:
-   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
-   data_ingestion = DataIngestionTrainingPipeline()
-   data_ingestion.main()
-   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-except Exception as e:
-        logger.exception(e)
-        raise e
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Summarize user-provided text")
+    parser.add_argument("text", type=str, help="Text to summarize")
+    parser.add_argument("--max-length", type=int, default=130)
+    parser.add_argument("--min-length", type=int, default=30)
+    return parser.parse_args()
 
 
+def main() -> None:
+    args = parse_args()
+    if args.min_length >= args.max_length:
+        raise ValueError("--min-length must be less than --max-length")
+
+    summary = summarize_text(
+        text=args.text,
+        max_length=args.max_length,
+        min_length=args.min_length,
+        do_sample=False,
+    )
+    print(summary)
 
 
-STAGE_NAME = "Data Validation stage"
-try:
-   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
-   data_validation = DataValidationTrainingPipeline()
-   data_validation.main()
-   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-except Exception as e:
-        logger.exception(e)
-        raise e
-
-
-
-STAGE_NAME = "Data Transformation stage"
-try:
-   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
-   data_transformation = DataTransformationTrainingPipeline()
-   data_transformation.main()
-   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-except Exception as e:
-        logger.exception(e)
-        raise e
-
-
-
-STAGE_NAME = "Model Trainer stage"
-try: 
-   logger.info(f"*******************")
-   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
-   model_trainer = ModelTrainerTrainingPipeline()
-   model_trainer.main()
-   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-except Exception as e:
-        logger.exception(e)
-        raise e
-
-
-'''
-
-STAGE_NAME = "Model Evaluation stage"
-try: 
-   logger.info(f"*******************")
-   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<")
-   model_evaluation = ModelEvaluationTrainingPipeline()
-   model_evaluation.main()
-   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\nx==========x")
-except Exception as e:
-        logger.exception(e)
-        raise e
-
-
-
-
-'''
+if __name__ == "__main__":
+    main()

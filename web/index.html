@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text Summarizer</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="background-shape shape-a"></div>
+    <div class="background-shape shape-b"></div>
+
+    <main class="page">
+      <section class="card">
+        <header class="header">
+          <p class="eyebrow">NLP Utility</p>
+          <h1>Summarize Your Paragraph</h1>
+          <p class="subhead">
+            Paste text, click summarize, and get a concise version. Keep input under ~2800 characters for faster output.
+          </p>
+        </header>
+
+        <form id="summarize-form" class="form">
+          <label for="text-input">Input Text</label>
+          <textarea
+            id="text-input"
+            name="text"
+            placeholder="Type or paste your paragraph here..."
+            required
+          ></textarea>
+
+          <div class="controls">
+            <div class="length-input">
+              <label for="min-length">Min Length</label>
+              <input id="min-length" name="min_length" type="number" value="30" min="5" max="180" />
+            </div>
+            <div class="length-input">
+              <label for="max-length">Max Length</label>
+              <input id="max-length" name="max_length" type="number" value="110" min="20" max="300" />
+            </div>
+          </div>
+
+          <button id="submit-btn" type="submit">Summarize Text</button>
+        </form>
+
+        <section class="result">
+          <div class="result-head">
+            <h2>Summary</h2>
+            <span id="status-chip" class="chip">Ready</span>
+          </div>
+          <p id="summary-output" class="summary-output">
+            Your summary will appear here.
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
